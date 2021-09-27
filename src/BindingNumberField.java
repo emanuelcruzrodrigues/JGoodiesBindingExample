@@ -42,12 +42,16 @@ public abstract class BindingNumberField extends BindingTextField{
 				if (!listening) return;
 				listening = false;
 				String value = (String) valueHolder.getValue();
+				
 				try {
-					Number result = (value == null || value.length() == 0) ? null : convertStringToNumber(value);
-					valueModel.setValue(result);
-				} catch (Exception e) {
-					final String result = valueModel.getValue() == null ? null : getNumberFormat().format(valueModel.getValue());
-					valueHolder.setValue(result);
+					
+					Number number = (value == null || value.length() == 0) ? null : convertStringToNumber(value);
+					valueModel.setValue(number);
+					
+					refreshValueHolderValue();
+					
+				} catch (ParseException e) {
+					refreshValueHolderValue();
 				}
 				listening = true;
 			}
@@ -60,9 +64,7 @@ public abstract class BindingNumberField extends BindingTextField{
 				if (!listening) return;
 				listening = false;
 				
-				final String result = valueModel.getValue() == null ? null : getNumberFormat().format(valueModel.getValue());
-				
-				valueHolder.setValue(result);
+				refreshValueHolderValue();
 				
 				listening = true;
 			}
@@ -81,18 +83,11 @@ public abstract class BindingNumberField extends BindingTextField{
 		}
 		return numberFormat;
 	}
-	
-	public Number getModelValue(){
-		return (Number) valueModel.getValue();
+
+	private void refreshValueHolderValue() {
+		String vhValue = valueModel.getValue() == null ? null : getNumberFormat().format(valueModel.getValue());
+		valueHolder.setValue(vhValue);
 	}
 	
-	public void refreshView(){
-		Number number = getModelValue();
-		if (number == null){
-			valueHolder.setValue(null);
-		}else{
-			valueHolder.setValue(getNumberFormat().format(number));
-		}
-	}
 
 }

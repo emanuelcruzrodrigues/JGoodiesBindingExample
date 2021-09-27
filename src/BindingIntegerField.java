@@ -8,12 +8,12 @@ public class BindingIntegerField extends BindingNumberField{
 	
 	public BindingIntegerField(ValueModel model) {
 		super(model);
-		setNumberFormat(new DecimalFormat("##0"));
+		setNumberFormat(new DecimalFormat("#,###,###,###"));
 	}	
 
 	@Override
 	protected Number convertStringToNumber(String value) throws ParseException  {
-		return new Integer(value);
+		return getNumberFormat().parse(value).intValue();
 	}
 
 }

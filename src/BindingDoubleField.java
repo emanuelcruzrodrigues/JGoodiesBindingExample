@@ -1,5 +1,3 @@
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
@@ -10,15 +8,7 @@ public class BindingDoubleField extends BindingNumberField{
 	
 	public BindingDoubleField(ValueModel model, NumberFormat numberFormat) {
 		super(model);
-		
 		setNumberFormat(numberFormat);
-		
-		addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				refreshView();
-			}
-		});
 	}
 	
 	@Override
